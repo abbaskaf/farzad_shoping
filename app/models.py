@@ -15,19 +15,26 @@ class Category(models.Model):
         verbose_name_plural = _('categories')
 
 
-class Product(models.Model):
+class Gender(models.Model):
+    gender = models.CharField(max_length=30,null=False,blank=False)
 
-    class GenderChoices(models.Choices):
-        men='men'
-        women='women'
+    def __str__(self):
+        return self.gender
+
+
+class Product(models.Model):
     class StatusChoices(models.Choices):
         publish = _('publish')
         draft = _('draft')
 
-    image = models.ImageField(upload_to='posts/', verbose_name='image_product', )
+    image = models.ImageField(upload_to='posts/', verbose_name='image_product', null=False, blank=False)
+    image1 = models.ImageField(upload_to='posts/', verbose_name='image_product', default='1')
+    image2 = models.ImageField(upload_to='posts/', verbose_name='image_product', default='2')
+    image3 = models.ImageField(upload_to='posts/', verbose_name='image_product', default='3')
     name = models.CharField(max_length=100, null=True, blank=False)
+    brand = models.CharField(max_length=100, null=True, blank=False)
+    genders = models.ForeignKey(Gender, on_delete=models.CASCADE, verbose_name='gender',null=True)
     about = models.TextField(verbose_name='about_product')
     price = models.IntegerField()
-    gender = models.CharField(max_length=5,choices=GenderChoices.choices,default=GenderChoices.men)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE)
-    status= models.CharField(max_length=30,choices=StatusChoices.choices,default=StatusChoices.draft,verbose_name='status')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    status = models.CharField(max_length=30, choices=StatusChoices.choices, default=StatusChoices.draft)
