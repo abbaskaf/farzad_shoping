@@ -16,7 +16,7 @@ class Category(models.Model):
 
 
 class Gender(models.Model):
-    gender = models.CharField(max_length=30,null=False,blank=False)
+    gender = models.CharField(max_length=30, null=False, blank=False)
 
     def __str__(self):
         return self.gender
@@ -33,8 +33,12 @@ class Product(models.Model):
     image3 = models.ImageField(upload_to='posts/', verbose_name='image_product', default='3')
     name = models.CharField(max_length=100, null=True, blank=False)
     brand = models.CharField(max_length=100, null=True, blank=False)
-    genders = models.ForeignKey(Gender, on_delete=models.CASCADE, verbose_name='gender',null=True)
+    genders = models.ForeignKey(Gender, on_delete=models.CASCADE, verbose_name='gender', null=True)
     about = models.TextField(verbose_name='about_product')
     price = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     status = models.CharField(max_length=30, choices=StatusChoices.choices, default=StatusChoices.draft)
+
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Products')
