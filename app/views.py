@@ -9,9 +9,10 @@ def HomeView(request, **kwargs):
     return render(request, 'index.html', {'post': post, 'post1': post1})
 
 
-def AllShop(request):
-    post = Product.objects.all()
-    return render(request, 'shop.html', {'post': post})
+class AllShop(ListView):
+    template_name = 'shop.html'
+    model = Product
+    paginate_by = 9
 
 
 class ShopView(TemplateView):
@@ -21,9 +22,9 @@ class ShopView(TemplateView):
         context = super().get_context_data(**kwargs)
         gender_slug = kwargs['gender_slug']
         gender = get_object_or_404(Gender, gender=gender_slug)
-        post = Product.objects.filter(genders=gender)
+        object_list = Product.objects.filter(genders=gender)
         context['gender'] = gender
-        context['post'] = post
+        context['object_list'] = object_list
         return context
 
 
